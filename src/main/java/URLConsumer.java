@@ -1,21 +1,36 @@
-import org.json.JSONObject;
-
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class URLConsumer {
 
-    public static JSONObject consume(String uri) {
+    public static Image getImage(String uri) {
+        Image image = null;
+
         try{
-            String lines = readFromConnection(getConnection(uri));
-            return new JSONObject(lines);
+            URL url = new URL(uri);
+            image = ImageIO.read(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return image;
+    }
+
+    public static String getText(String uri) {
+        String text = "";
+
+        try{
+            text = readFromConnection(getConnection(uri));
+            return text;
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        return new JSONObject();
+        return text;
     }
 
     private static String readFromConnection(HttpURLConnection connection) throws IOException {
