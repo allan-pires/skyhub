@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class URLConsumer {
 
-    public JSONObject consume(String uri) {
+    public static JSONObject consume(String uri) {
         try{
             String lines = readFromConnection(getConnection(uri));
             return new JSONObject(lines);
@@ -18,7 +18,7 @@ public class URLConsumer {
         return new JSONObject();
     }
 
-    private String readFromConnection(HttpURLConnection connection) throws IOException {
+    private static String readFromConnection(HttpURLConnection connection) throws IOException {
         InputStream input = new BufferedInputStream(connection.getInputStream());
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
@@ -33,7 +33,7 @@ public class URLConsumer {
         return builder.toString();
     }
 
-    private HttpURLConnection getConnection(String uri) throws IOException {
+    private static HttpURLConnection getConnection(String uri) throws IOException {
         URL url = new URL(uri);
 
         return (HttpURLConnection) url.openConnection();
