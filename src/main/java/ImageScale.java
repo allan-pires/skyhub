@@ -16,37 +16,28 @@ public class ImageScale {
     private static int LARGE_WIDTH = 640;
     private static int LARGE_HEIGHT = 480;
 
-    public static BufferedImage toSmall(BufferedImage sbi) {
+    private static BufferedImage scale(BufferedImage sbi, int width, int height){
         BufferedImage dbi = null;
+
         if(sbi != null) {
-            dbi = new BufferedImage(SMALL_WIDTH, SMALL_HEIGHT, TYPE_INT_RGB);
+            dbi = new BufferedImage(width, height, TYPE_INT_RGB);
             Graphics2D g = dbi.createGraphics();
-            AffineTransform at = AffineTransform.getScaleInstance((SMALL_WIDTH / dbi.getWidth()), (SMALL_HEIGHT / dbi.getHeight()));
+            AffineTransform at = AffineTransform.getScaleInstance((width / dbi.getWidth()), (height / dbi.getHeight()));
             g.drawRenderedImage(sbi, at);
         }
+
         return dbi;
+    }
+
+    public static BufferedImage toSmall(BufferedImage sbi) {
+        return scale(sbi, SMALL_WIDTH, SMALL_HEIGHT);
     }
 
     public static BufferedImage toMedium(BufferedImage sbi) {
-        BufferedImage dbi = null;
-        if(sbi != null) {
-            dbi = new BufferedImage(MEDIUM_WIDTH, MEDIUM_HEIGHT, TYPE_INT_RGB);
-            Graphics2D g = dbi.createGraphics();
-            AffineTransform at = AffineTransform.getScaleInstance((MEDIUM_WIDTH / dbi.getWidth()), (MEDIUM_HEIGHT / dbi.getHeight()));
-            g.drawRenderedImage(sbi, at);
-        }
-        return dbi;
+        return scale(sbi, MEDIUM_WIDTH, MEDIUM_HEIGHT);
     }
 
     public static BufferedImage toLarge(BufferedImage sbi) {
-        BufferedImage dbi = null;
-        if(sbi != null) {
-            dbi = new BufferedImage(LARGE_WIDTH, LARGE_HEIGHT, TYPE_INT_RGB);
-            Graphics2D g = dbi.createGraphics();
-            AffineTransform at = AffineTransform.getScaleInstance((LARGE_WIDTH / dbi.getWidth()), (LARGE_HEIGHT / dbi.getHeight()));
-            g.drawRenderedImage(sbi, at);
-        }
-        return dbi;
+        return scale(sbi, LARGE_WIDTH, LARGE_HEIGHT);
     }
-
 }
