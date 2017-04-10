@@ -1,13 +1,12 @@
 package com.skyhub.image;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
+import net.coobird.thumbnailator.Thumbnails;
 
-import static java.awt.image.BufferedImage.TYPE_INT_RGB;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
- * Scale function found in: https://stackoverflow.com/questions/15558202/how-to-resize-image-in-java
+ * Scale function found in: https://stackoverflow.com/questions/9417356/bufferedimage-resize
  */
 
 public class ImageScale {
@@ -19,28 +18,27 @@ public class ImageScale {
     private static int LARGE_WIDTH = 640;
     private static int LARGE_HEIGHT = 480;
 
-    private static BufferedImage scale(BufferedImage sbi, int width, int height){
-        BufferedImage dbi = null;
+    private BufferedImage scale(BufferedImage img, int width, int height){
+        BufferedImage image = new BufferedImage(width, height, img.getType());
 
-        if(sbi != null) {
-            dbi = new BufferedImage(width, height, TYPE_INT_RGB);
-            Graphics2D g = dbi.createGraphics();
-            AffineTransform at = AffineTransform.getScaleInstance((width / dbi.getWidth()), (height / dbi.getHeight()));
-            g.drawRenderedImage(sbi, at);
+        try {
+            image = Thumbnails.of(img).size(width, height).asBufferedImage();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return dbi;
+        return image;
     }
 
-    public static BufferedImage toSmall(BufferedImage sbi) {
+    public BufferedImage toSmall(BufferedImage sbi) {
         return scale(sbi, SMALL_WIDTH, SMALL_HEIGHT);
     }
 
-    public static BufferedImage toMedium(BufferedImage sbi) {
+    public BufferedImage toMedium(BufferedImage sbi) {
         return scale(sbi, MEDIUM_WIDTH, MEDIUM_HEIGHT);
     }
 
-    public static BufferedImage toLarge(BufferedImage sbi) {
+    public BufferedImage toLarge(BufferedImage sbi) {
         return scale(sbi, LARGE_WIDTH, LARGE_HEIGHT);
     }
 }

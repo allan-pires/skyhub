@@ -1,4 +1,5 @@
-import com.skyhub.consumer.URLConsumer;
+package com.skyhub.connection;
+
 import org.junit.Assert;
 import org.junit.Test;
 

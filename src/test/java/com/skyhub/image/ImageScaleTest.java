@@ -1,4 +1,5 @@
-import com.skyhub.image.ImageScale;
+package com.skyhub.image;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,16 +15,18 @@ import java.io.IOException;
 public class ImageScaleTest {
 
     private BufferedImage img;
+    private ImageScale scale;
 
     @Before
     public void setup() throws IOException {
+        scale = new ImageScale();
         String currentPath = System.getProperty("user.dir");
         img = ImageIO.read(new File(currentPath + "/src/test/resources/b737_5.jpg"));
     }
 
     @Test
     public void toSmall() throws Exception {
-        BufferedImage smallImg = ImageScale.toSmall(img);
+        BufferedImage smallImg = scale.toSmall(img);
 
         Assert.assertEquals(320, smallImg.getWidth());
         Assert.assertEquals(240, smallImg.getHeight());
@@ -31,7 +34,7 @@ public class ImageScaleTest {
 
     @Test
     public void toMedium() throws Exception {
-        BufferedImage smallImg = ImageScale.toMedium(img);
+        BufferedImage smallImg = scale.toMedium(img);
 
         Assert.assertEquals(384, smallImg.getWidth());
         Assert.assertEquals(288, smallImg.getHeight());
@@ -39,7 +42,7 @@ public class ImageScaleTest {
 
     @Test
     public void toLarge() throws Exception {
-        BufferedImage smallImg = ImageScale.toLarge(img);
+        BufferedImage smallImg = scale.toLarge(img);
 
         Assert.assertEquals(640, smallImg.getWidth());
         Assert.assertEquals(480, smallImg.getHeight());

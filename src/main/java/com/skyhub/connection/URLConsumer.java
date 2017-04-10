@@ -1,4 +1,4 @@
-package com.skyhub.consumer;
+package com.skyhub.connection;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
