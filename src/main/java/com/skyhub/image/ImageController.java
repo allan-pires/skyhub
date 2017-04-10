@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 public class ImageController {
 
-    private static String URL_TO_CONSUME = "http://54.152.221.29/images.json";
+    private static String IMAGES_JSON_URL = "http://54.152.221.29/images.json";
     private static String URL_TO_PRODUCE = "localhost:8080/images/";
     private static String IMG_PREFIX = "img";
     private static String SMALL_SUFFIX = "_small";
@@ -36,21 +36,31 @@ public class ImageController {
     @Autowired
     ImageScale scale;
 
-    @RequestMapping(value = "/images.json")
-    public String listImages() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(createJsonImages().toString());
-
-        return gson.toJson(element);
-    }
+    @Autowired
+    URLConsumer consumer;
 
     @RequestMapping(value = "/images/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] showImage(@PathVariable String name) {
         return repository.getImage(name);
     }
 
-    private JSONArray loadImageNames(){
+    @RequestMapping(value = "/list")
+    public String listImages() {
+        return getPrettyJson(createImagesJSONObject());
+    }
+
+    private JSONObject createImagesJSONObject(){
+        JSONObject obj = new JSONObject();
+        JSONArray names = getImageNamesJSONArray();
+
+        if (names.length() > 0){
+            obj.append("images", names);
+        }
+
+        return obj;
+    }
+
+    private JSONArray getImageNamesJSONArray(){
         List<String> names = repository.getAllImagesNames();
         JSONArray namesArr = new JSONArray();
 
@@ -63,15 +73,16 @@ public class ImageController {
         return namesArr;
     }
 
-    private JSONObject createJsonImages(){
-        JSONObject obj = new JSONObject();
-        obj.append("images", loadImageNames());
+    private String getPrettyJson(JSONObject obj){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(obj.toString());
 
-        return obj;
+        return gson.toJson(element);
     }
 
-    public void initializeImageRepository() throws IOException {
-        JSONObject json = new JSONObject(URLConsumer.getText(URL_TO_CONSUME));
+    public void saveImagesFromURL() throws IOException {
+        JSONObject json = new JSONObject(consumer.getTextFromURL(IMAGES_JSON_URL));
         JSONArray imgPaths = json.getJSONArray("images");
 
         for (int i = 0; i < imgPaths.length(); i++){
@@ -83,7 +94,7 @@ public class ImageController {
 
     private BufferedImage getImageFromJson(JSONObject path){
         String url = (String) path.get("url");
-        return URLConsumer.getImage(url);
+        return consumer.getImageFromURL(url);
     }
 
     private void saveImageScales(BufferedImage image, String name) throws IOException {

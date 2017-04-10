@@ -1,6 +1,7 @@
 package com.skyhub.connection;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -8,9 +9,16 @@ import org.junit.Test;
  */
 public class URLConsumerTest {
 
+    private URLConsumer consumer;
+
+    @Before
+    public void setup(){
+        consumer = new URLConsumer();
+    }
+
     @Test
     public void consumeReturnsText() throws Exception {
-        String text = URLConsumer.getText("http://54.152.221.29/images.json");
+        String text = consumer.getTextFromURL("http://54.152.221.29/images.json");
 
         Assert.assertNotNull(text);
         Assert.assertTrue(text.contains("images"));
@@ -19,7 +27,7 @@ public class URLConsumerTest {
 
     @Test
     public void consumeReturnsEmptyString() throws Exception{
-        String text = URLConsumer.getText("Some bad url");
+        String text = consumer.getTextFromURL("Some bad url");
 
         Assert.assertNotNull(text);
         Assert.assertEquals("", text);

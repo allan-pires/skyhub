@@ -11,7 +11,7 @@ import java.net.URL;
  */
 public class URLConsumer {
 
-    public static BufferedImage getImage(String uri) {
+    public BufferedImage getImageFromURL(String uri) {
         BufferedImage image = null;
 
         try{
@@ -24,7 +24,7 @@ public class URLConsumer {
         return image;
     }
 
-    public static String getText(String uri) {
+    public String getTextFromURL(String uri) {
         String text = "";
 
         try{
@@ -38,7 +38,7 @@ public class URLConsumer {
         return text;
     }
 
-    private static String readFromConnection(HttpURLConnection connection) throws IOException {
+    private String readFromConnection(HttpURLConnection connection) throws IOException {
         InputStream input = new BufferedInputStream(connection.getInputStream());
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
@@ -53,7 +53,7 @@ public class URLConsumer {
         return builder.toString();
     }
 
-    private static HttpURLConnection getConnection(String uri) throws IOException {
+    private HttpURLConnection getConnection(String uri) throws IOException {
         URL url = new URL(uri);
 
         return (HttpURLConnection) url.openConnection();
