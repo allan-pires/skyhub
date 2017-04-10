@@ -1,5 +1,10 @@
+package com.skyhub.image;
+
+import com.skyhub.consumer.URLConsumer;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -7,11 +12,17 @@ import java.io.IOException;
 /**
  * Created by allan on 09/04/17.
  */
-public class SkyHub {
+@RestController
+public class ImageController {
 
     private static String URL = "http://54.152.221.29/images.json";
 
-    private static void initializeImageRepository() throws IOException {
+    @RequestMapping("/list")
+    public String list() {
+        return "I DID IT";
+    }
+
+    public static void initializeImageRepository() throws IOException {
         JSONObject json = new JSONObject(URLConsumer.getText(URL));
         JSONArray imgPaths = json.getJSONArray("images");
 
@@ -20,7 +31,6 @@ public class SkyHub {
             BufferedImage img = getImageFromJson(path);
             saveImageScales(img);
         }
-
     }
 
     private static BufferedImage getImageFromJson(JSONObject path){
@@ -32,11 +42,5 @@ public class SkyHub {
         ImageRepository.save(ImageScale.toLarge(image));
         ImageRepository.save(ImageScale.toMedium(image));
         ImageRepository.save(ImageScale.toSmall(image));
-
     }
-
-    public static void main(String[] args) throws IOException {
-        initializeImageRepository();
-    }
-
 }

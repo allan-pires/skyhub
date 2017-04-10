@@ -1,3 +1,5 @@
+package com.skyhub.image;
+
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.gridfs.GridFS;
@@ -7,15 +9,16 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 /**
  * Created by allan on 09/04/17.
  */
 public class ImageRepository {
 
-    private static DB getConnection(){
+    private static DB getConnection() throws UnknownHostException {
         MongoClient mongoClient = new MongoClient("localhost" , 27017);
-        return mongoClient.getDB("skyhub");
+        return mongoClient.getDB("com/skyhub");
     }
 
     private static byte[] imageToBinary(BufferedImage bufferedImage) throws IOException {
