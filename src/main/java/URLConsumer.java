@@ -1,13 +1,16 @@
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Created by allan on 09/04/17.
+ */
 public class URLConsumer {
 
-    public static Image getImage(String uri) {
-        Image image = null;
+    public static BufferedImage getImage(String uri) {
+        BufferedImage image = null;
 
         try{
             URL url = new URL(uri);

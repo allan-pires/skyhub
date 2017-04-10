@@ -5,8 +5,9 @@ import java.awt.image.BufferedImage;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 /**
- * Created by allan on 09/04/17.
+ * Scale function found in: https://stackoverflow.com/questions/15558202/how-to-resize-image-in-java
  */
+
 public class ImageScale {
 
     private static int SMALL_WIDTH = 320;
